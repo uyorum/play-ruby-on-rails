@@ -6,8 +6,7 @@ Junk source codes about Ruby on Rails
 ``` shell
 $ rbenv install 2.4.0
 $ rbenv local 2.4.0
-$ gem install bundler
-$ bundle init
-$ echo 'gem "rails", "~> 4.2.8"' >> Gemfile
-$ bundle
+$ rbenv gemset init assets-pipeline
+$ gem install rails -v="4.2.8"
+$ rails new . --skip-activerecord --skip-git --skip-spring --skip-turbolinks --skip-test-unit
 ```
