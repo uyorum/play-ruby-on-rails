@@ -75,10 +75,42 @@ describe User do
   end
 
   describe "#remember" do
-    it "save token in `remember_digest`" do
-      user = create(:user, remember_digest: nil)
-      user.remember
-      expect(user.remember_digest).not_to be_nil
+    before(:each) do
+      @user = create(:user, remember_digest: nil)
+      @user.remember
+    end
+
+    it "save token_digest in `remember_digest`" do
+      expect(@user.remember_digest).not_to be_nil
+    end
+
+    it "save token in `remember_token`" do
+      expect(@user.remember_token).not_to be_nil
+    end
+  end
+
+  describe "#authenticated?" do
+    before(:each) do
+      @user = build(:user)
+      @user.remember
+    end
+
+    context "with currect remember token" do
+      it "returns true" do
+        expect(@user.authenticated?(:remember, @user.remember_token)).to eq(true)
+      end
+    end
+
+    context "with nil remember token" do
+      it "returns false" do
+        expect(@user.authenticated?(:remember, nil)).to eq(false)
+      end
+    end
+
+    context "with incurrect remember token" do
+      it "returns false" do
+        expect(@user.authenticated?(:remember, @user.remember_token + "a")).to eq(false)
+      end
     end
   end
 
