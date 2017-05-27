@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :micropost do
     association :user
-    content "I just ate an orange!"
-    created_at 10.minutes.ago
+    content { Faker::Lorem.sentence(5) }
+    created_at { Faker::Time.between(Time.zone.now - 3.years, Time.zone.now) }
   end
 end
