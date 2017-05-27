@@ -77,4 +77,20 @@ describe User do
     user.password = user.password_confirmation = "a" * 5
     expect(user).not_to be_valid
   end
+
+  describe "#remember" do
+    it "save token in `remember_digest`" do
+      user.remember_digest = nil
+      user.save
+      user.remember
+      expect(user.remember_digest).not_to be_nil
+    end
+  end
+
+  describe "#downcase_email" do
+    it "returns email in downcase" do
+      user.email = "USER@EXAMPLE.com"
+      expect(user.send(:downcase_email)).to eq("user@example.com")
+    end
+  end
 end

@@ -20,6 +20,7 @@ group :development, :test do
   gem 'sqlite3',     '1.3.9'
   gem 'byebug',      '3.4.0'
   gem 'web-console', '2.0.0.beta3'
+  gem "faker", "~> 1.4.3"
   gem 'spring',      '1.1.3'
   gem "rspec-rails", "~> 3.1.0"
   gem "factory_girl_rails", "~> 4.4.1"
@@ -29,7 +30,6 @@ group :test do
   gem 'minitest-reporters', '1.0.5'
   gem 'mini_backtrace',     '0.1.3'
   gem 'guard-minitest',     '2.3.1'
-  gem "faker", "~> 1.4.3"
   gem "capybara", "~> 2.4.3"
   gem "database_cleaner", "~> 1.3.0"
   gem "launchy", "~> 2.4.2"
