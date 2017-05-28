@@ -5,8 +5,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -53,6 +51,5 @@ RSpec.configure do |config|
   # Include Factory Girl syntax
   config.include FactoryGirl::Syntax::Methods
 
-  # Include my macros
-  config.include LoginMacros
+  config.include SessionsHelper
 end
