@@ -2,14 +2,14 @@ require 'rails_helper'
 
 describe UsersController do
   shared_examples "public access to users" do
+    let(:user){ create(:user) }
     describe "#show" do
       before :each do
-        @user = create(:user)
-        get :show, id: @user
+        get :show, id: user
       end
 
       it "assigns the requested user to @user" do
-        expect(assigns(:user)).to eq(@user)
+        expect(assigns(:user)).to eq(user)
       end
 
       it "renders the :show template" do
@@ -98,53 +98,56 @@ describe UsersController do
     describe "#update" do
       context "with id of myself" do
         context "with valid attributes" do
+          let(:user){ @log_in_user }
+
           before :each do
-            @user = @log_in_user
-            patch :update, id: @user,
+            patch :update, id: user,
                   user: attributes_for(:user,
                                        name: 'new-name',
-                                       admin: !@user.admin)
-            @user.reload
+                                       admin: !user.admin)
+            user.reload
           end
 
           it "localtes the requested @user" do
-            expect(assigns(:user)).to eq(@user)
+            expect(assigns(:user)).to eq(user)
           end
 
-          it "changes @user's attributes" do
-            expect(@user.name).to eq('new-name')
+          it "changes user's attributes" do
+            expect(user.name).to eq('new-name')
           end
 
-          it "does not change @users's admin attributes" do
-            expect(@user.admin).to eq(@user.admin)
+          it "does not change users's admin attributes" do
+            expect(user.admin).to eq(user.admin)
           end
         end
 
         context "with invalid attributes" do
-          before :each do
-            @user = @log_in_user
-            patch :update, id: @user,
-                  user: attributes_for(:user,
-                                       name: nil)
-            @user.reload
-          end
+          let(:user){ @log_in_user }
 
-          it "does not change @user's attributes" do
-            expect(@user).to eq(@user)
+          it "does not change user's attributes" do
+            expect{
+              patch :update, id: user,
+                    user: attributes_for(:user,
+                                         name: nil)
+            }.not_to change(user, :name)
           end
 
           it "renders the :edit template" do
+            patch :update, id: user,
+                  user: attributes_for(:user,
+                                       name: nil)
             expect(response).to render_template :edit
           end
         end
       end
 
       context "with id of other user" do
-        before :each do
-          get :edit, id: create(:user)
-        end
+        let(:user){ create(:user) }
 
         it "redirects to static_pages#home" do
+          patch :update, id: user,
+                user: attributes_for(:user,
+                                     name: 'new-name')
           expect(response).to redirect_to root_path
         end
       end
@@ -161,23 +164,22 @@ describe UsersController do
     it_behaves_like "show access to users and full to oneself"
 
     describe "#destroy" do
-      before :each do
-        @user = create(:user)
-      end
+      let(:user){ create(:user) }
 
       it "remove the user from the database" do
+        user
         expect{
-          delete :destroy, id: @user
+          delete :destroy, id: user
         }.to change(User, :count).by(-1)
       end
 
       it "sets the message in flash[:success]" do
-        delete :destroy, id: @user
+        delete :destroy, id: user
         expect(flash[:success]).not_to be_nil
       end
 
       it "redirects to users#index" do
-        delete :destroy, id: @user
+        delete :destroy, id: user
         expect(response).to redirect_to users_path
       end
     end
@@ -193,18 +195,17 @@ describe UsersController do
     it_behaves_like "show access to users and full to oneself"
 
     describe "#destroy" do
-      before :each do
-        @user = create(:user)
-      end
+      let(:user){ create(:user) }
 
       it "does not remove the user from the database" do
+        user
         expect{
-          delete :destroy, id: @user
+          delete :destroy, id: user
         }.not_to change(User, :count)
       end
 
       it "redirects to static_pages#home" do
-        delete :destroy, id: @user
+        delete :destroy, id: user
         expect(response).to redirect_to root_path
       end
     end
@@ -228,37 +229,37 @@ describe UsersController do
     end
 
     describe "#update" do
-      before :each do
-        @user = create(:user)
-        patch :update, id: @user,
-              user: attributes_for(:user,
-                                   name: 'new-name')
-        @user.reload
-      end
+      let(:user){ create(:user) }
 
-      it "does not change @user's attributes" do
-        expect(@user).to eq(@user)
+      it "does not change the user's attributes" do
+        user
+        expect{
+          patch :update, id: user,
+                user: attributes_for(:user,
+                                     name: 'new-name')
+        }.not_to change(user, :name)
       end
 
       it "redirects to sessions#new" do
-        get :edit, id: create(:user)
+        patch :update, id: user,
+              user: attributes_for(:user,
+                                   name: 'new-name')
         expect(response).to redirect_to login_path
       end
     end
 
     describe "#destroy" do
-      before :each do
-        @user = create(:user)
-      end
+      let(:user){ create(:user) }
 
       it "does not remove the user from the database" do
+        user
         expect{
-          delete :destroy, id: @user
+          delete :destroy, id: user
         }.not_to change(User, :count)
       end
 
       it "redirects to sessions#new" do
-        delete :destroy, id: @user
+        delete :destroy, id: user
         expect(response).to redirect_to login_path
       end
     end
