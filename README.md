@@ -16,3 +16,10 @@ It is better then inserting `sleep` to use `find` or `have_xxx` to wait to finis
 
 (cf. [teamcapybara/capybara: Acceptance test framework for web applications](https://github.com/teamcapybara/capybara#asynchronous-javascript-ajax-and-friends))
 
+## Guard
+
+1. Include `guard-rspec` in Gemfile
+1. `bundle install`
+1. `bundle exec guard init rspec`  
+    This command generates Guardfile in app root
+1. `bundle exec guard`
