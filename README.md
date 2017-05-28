@@ -18,8 +18,13 @@ It is better then inserting `sleep` to use `find` or `have_xxx` to wait to finis
 
 ## Guard
 
-1. Include `guard-rspec` in Gemfile
+1. Insert `guard-rspec` in Gemfile
 1. `bundle install`
 1. `bundle exec guard init rspec`  
     This command generates Guardfile in app root
 1. `bundle exec guard`
+
+## Spring
+1. Insert `spring-command-rspec` in Gemfile
+1. `bundle exec spring binstub rspec`
+1. `bin/spring stop`

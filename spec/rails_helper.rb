@@ -69,4 +69,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.filter_run_excluding js: true
 end
