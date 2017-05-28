@@ -154,7 +154,7 @@ describe UsersController do
   describe "administrator access" do
     before :each do
       @log_in_user = create(:admin_user)
-      log_in(@log_in_user)
+      log_in_as(@log_in_user)
     end
 
     it_behaves_like "public access to users"
@@ -186,7 +186,7 @@ describe UsersController do
   describe "user access" do
     before :each do
       @log_in_user = create(:non_admin_user)
-      log_in(@log_in_user)
+      log_in_as(@log_in_user)
     end
 
     it_behaves_like "public access to users"
