@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { test_user }
 
   1000.times do
     it 'behaves like something' do
